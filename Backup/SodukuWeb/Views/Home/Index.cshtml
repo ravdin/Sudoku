@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Index";
+    int?[,] numbers = ViewBag.Numbers ?? new int?[9, 9];
+    string message = ViewBag.Message ?? "Enter your numbers.";
+    string interval = ViewBag.Interval ?? "";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#clearBoard').click(function () {
+            $('input.s0').val('');
+            return false;
+        });
+    });
+</script>
+
+<table width="100%" height="100%" cellspacing="0">
+  <tr valign="middle">
+    <td align="center">
+	  <form name="board" method="POST" action="./" style="margin:0;">
+	    <p style="margin-top:18px; margin-bottom:12px;">
+          <font style="font-size:133%;"><span id="message"><b>@message</b></span>
+          <br />
+          <span><b>@interval</b></span>
+          </font>
+	    </p>
+        <div style="margin:0;">
+          <table cellspacing="0" cellpadding="0" class="t">
+            @for (int i = 0; i < 9; i++)
+            {
+                <tr>
+                  @for (int j = 0; j < 9; j++)
+                  {
+                      string cellClass = "";
+                      string cellID = string.Format("c{0}{1}", i, j);
+                      string inpID = string.Format("f{0}{1}", i, j);
+                      if (i % 3 == 0)
+                      {
+                          cellClass = j % 3 == 0 ? "g0" : "f0";
+                      }
+                      else if (i == 8)
+                      {
+                          cellClass = j % 3 == 0 ? "i0" : "h0";
+                      }
+                      else
+                      {
+                          cellClass = j % 3 == 0 ? "e0" : "c0";
+                      }
+                      <td class="@cellClass" id="@cellID">
+                        <input class="s0" size="2" autocomplete="off" maxlength="1" id="@inpID" name="@inpID" value="@numbers[i,j]" />
+                      </td>                              
+                  }
+                </tr>
+            }
+           </table>
+           <input type="submit" value="Submit" />
+           <input type="button" id="clearBoard" value="Clear" />
+         </div>	
+	  </form>
+	</td>
+  </tr>
+</table>
